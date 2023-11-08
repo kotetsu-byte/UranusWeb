@@ -1,0 +1,59 @@
+﻿<div id="header-container">
+    <div class="row-flex">
+        <div>
+            <img src="./img/main-logo.png" />
+        </div>
+        <div>
+            <ul>
+                <li>Все курсы</li>
+                <li>Мои курсы</li>
+                <li>Домашние задания</li>
+                <li>О нас</li>
+                <li>Контакты</li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li>Войти</li>
+                <li><button id="register-btn">Регистрация</button></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@code {
+
+}
+
+<style>
+#header-container {
+    display: block;
+    padding: 5px 150px;
+    width: 100vw;
+    height: max-content;
+    background-color: white;
+}
+
+#header-container .row-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#header-container ul {
+    list-style-type: none;
+}
+
+#header-container ul > li {
+    display: inline-block;
+}
+
+#register-btn {
+    border: none;
+    background: #35A4D9;
+    border-radius: 6px;
+    padding: 5px 15px;
+    color: white;
+}
+</style>
