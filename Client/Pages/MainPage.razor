@@ -1,0 +1,45 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+<div>
+    <div style="background: url(./img/main-page/top-img.png) no-repeat; padding-top: 60px; padding-bottom: 60px;">
+        <h1 style="color: white; font-size: 52px; font-weight: 700; text-align: center; margin-bottom: 20px;">
+            Хотите научиться профессионально<br />инвестировать и всегда оставаться в плюсе?
+        </h1>
+        <p style="text-align: center; color: #CBCBCB; font-size: 22px; font-weight: 400; margin-bottom: 30px;">Грамотно разберем вашу финансовую ситуацию, разработаем стратегию и поможем эффективно инвестировать</p>
+        <div style="text-align: center;">
+            <button style="border: none; background-color: #35A4D9; border-radius: 10px; color: white; font-size: 16px; font-weight: 500; padding: 10px 40px;">
+                Записаться на курс
+            </button>
+        </div>
+    </div>
+    <div style="padding: 0 150px;">
+        <div style="padding: 60px 0;">
+           <h1 style="font-size: 42px; font-weight: 700; text-align: center; margin: 20px 0;">Все курсы</h1>
+           @for(int i = 0; i < 6; i++)
+            {
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div>
+                        <img src="./img/main-page/1.png" width="300" />
+                        <p style="font-size: 24px; font-weight: 700;">Обучение трейдингу</p>
+                        <p style="font-size: 14px; font-weight: 400;">Мы делаем заработок на трейденге доступным для каждого</p>
+                    </div>
+                    <div>
+                        <img src="./img/main-page/2.png" width="300" />
+                        <p style="font-size: 24px; font-weight: 700;">Обучение трейдингу</p>
+                        <p style="font-size: 14px; font-weight: 400;">Мы делаем заработок на трейденге доступным для каждого</p>
+                    </div>
+                    <div>
+                        <img src="./img/main-page/3.png" width="300" />
+                        <p style="font-size: 24px; font-weight: 700;">Обучение трейдингу</p>
+                        <p style="font-size: 14px; font-weight: 400;">Мы делаем заработок на трейденге доступным для каждого</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+}

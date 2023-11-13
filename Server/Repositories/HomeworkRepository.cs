@@ -1,0 +1,56 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices.JavaScript;
+using UranusAdmin.Models;
+using UranusWeb.Server.Data;
+using UranusWeb.Server.Interfaces;
+
+namespace UranusWeb.Server.Repositories
+{
+    public class HomeworkRepository : IHomeworkRepository
+    {
+        private readonly AppDbContext _context;
+
+        public HomeworkRepository(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<Homework>> GetAllHomeworks()
+        {
+            return await _context.Homeworks.ToListAsync();
+        }
+
+        public async Task<Homework> GetHomeworkById(int id)
+        {
+            return await _context.Homeworks.Where(h => h.Id == id).FirstOrDefaultAsync();
+        }
+
+        public bool Create(Homework homework)
+        {
+            _context.Homeworks.Add(homework);
+
+            return Save();
+        }
+
+        public bool Update(Homework homework)
+        {
+            _context.Homeworks.Update(homework);
+
+            return Save();
+        }
+
+        public bool Delete(Homework homework)
+        {
+            _context.Homeworks.Remove(homework);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+
+            return saved > 0 ? true : false;
+        }
+    }
+}
