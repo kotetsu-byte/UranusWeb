@@ -8,7 +8,7 @@ namespace UranusWeb.Server.Interfaces
         Task<Doc> GetDocById(int id);
         bool Create(Doc doc);
         bool Update(Doc doc);
-        bool Delete(Doc doc);
+        bool Delete(int id);
         bool Save();
     }
 }

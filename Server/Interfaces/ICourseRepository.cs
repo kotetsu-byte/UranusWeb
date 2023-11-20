@@ -8,7 +8,7 @@ namespace UranusWeb.Server.Interfaces
         Task<Course> GetCourseById(int id);
         bool Create(Course course);
         bool Update(Course course);
-        bool Delete(Course course);
+        bool Delete(int id);
         bool Save();
     }
 }

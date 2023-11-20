@@ -39,8 +39,10 @@ namespace UranusWeb.Server.Repositories
             return Save();
         }
 
-        public bool Delete(Homework homework)
+        public bool Delete(int id)
         {
+            var homework = _context.Homeworks.Where(h => h.Id == id).FirstOrDefault();
+            
             _context.Homeworks.Remove(homework);
 
             return Save();

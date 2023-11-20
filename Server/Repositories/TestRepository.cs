@@ -38,8 +38,10 @@ namespace UranusWeb.Server.Repositories
             return Save();
         }
 
-        public bool Delete(Test test)
+        public bool Delete(int id)
         {
+            var test = _context.Tests.Where(t => t.Id == id).FirstOrDefault();
+            
             _context.Tests.Remove(test);
 
             return Save();

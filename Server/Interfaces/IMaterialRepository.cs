@@ -8,7 +8,7 @@ namespace UranusWeb.Server.Interfaces
         Task<Material> GetMaterialById(int id);
         bool Create(Material material);
         bool Update(Material material);
-        bool Delete(Material material);
+        bool Delete(int id);
         bool Save();
     }
 }

@@ -8,7 +8,7 @@ namespace UranusWeb.Server.Interfaces
         Task<Video> GetVideoById(int id);
         bool Create(Video video);
         bool Update(Video video);
-        bool Delete(Video video);
+        bool Delete(int id);
         bool Save();
     }
 }

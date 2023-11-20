@@ -37,8 +37,10 @@ namespace UranusWeb.Server.Repositories
             return Save();
         }
 
-        public bool Delete(Course course)
+        public bool Delete(int id)
         {
+            var course = _context.Courses.Where(c => c.Id == id).FirstOrDefault();
+            
             _context.Courses.Remove(course);
 
             return Save();

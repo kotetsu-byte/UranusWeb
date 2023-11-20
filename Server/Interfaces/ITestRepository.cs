@@ -8,7 +8,7 @@ namespace UranusWeb.Server.Interfaces
         Task<Test> GetTestById(int id);
         bool Create(Test test);
         bool Update(Test test);
-        bool Delete(Test test);
+        bool Delete(int id);
         bool Save();
     }
 }

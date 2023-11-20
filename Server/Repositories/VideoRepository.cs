@@ -38,8 +38,10 @@ namespace UranusWeb.Server.Repositories
             return Save();
         }
 
-        public bool Delete(Video video)
+        public bool Delete(int id)
         {
+            var video = _context.Videos.Where(v => v.Id == id).FirstOrDefault();
+            
             _context.Videos.Remove(video);
 
             return Save();

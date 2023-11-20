@@ -8,7 +8,7 @@ namespace UranusWeb.Server.Interfaces
         Task<Homework> GetHomeworkById(int id);
         bool Create(Homework homework);
         bool Update(Homework homework);
-        bool Delete(Homework homework);
+        bool Delete(int id);
         bool Save();
     }
 }
