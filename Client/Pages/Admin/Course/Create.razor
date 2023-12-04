@@ -1,0 +1,39 @@
+﻿@page "/admin/course/create"
+@inject ICourseRepository _courseRepository
+@inject NavigationManager _navigation
+
+@if(Model != null)
+{
+    <EditForm Model="Model" OnSubmit="() => Submit()">
+        <div class="form-control">
+            <label>Name</label>
+            <input type="text" class="form-control" @bind-value="Model!.Name" />
+        </div>
+        <div class="form-control">
+            <label>Description</label>
+            <input type="text" class="form-control" @bind-value="Model!.Description" />
+        </div>
+        <div class="form-control">
+            <label>Price</label>
+            <input type="text" class="form-control" @bind-value="Model!.Price" />
+        </div>
+
+        <button type="submit">Submit</button>
+    </EditForm>
+} else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    protected override void OnInitialized() => Model ??= new();
+
+    async Task Submit()
+    {
+        await _courseRepository.Create(Model);
+
+        _navigation.NavigateTo("/admin/course");
+    }
+
+    public CourseDto? Model { get; set; }
+}

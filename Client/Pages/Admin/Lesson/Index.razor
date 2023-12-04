@@ -1,0 +1,66 @@
+﻿@page "/admin/lesson/{CourseId:int}"
+@inject NavigationManager navigation
+<PageTitle>Lessons</PageTitle>
+
+@if(Lessons != null)
+{
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in Lessons)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Content</td>
+                <td><button @onclick="() => HandleDetailsClick(item.CourseId, item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleEditClick(item.CourseId, item.Id)">Edit</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.CourseId, item.Id)">Delete</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+<button @onclick="() => HandleCreateClick(CourseId)">Create Lesson</button>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Inject]
+    public ILessonRepository LessonRepository { get; set; }
+    public IEnumerable<LessonDto> Lessons { get; set; }
+    public CourseDto Course { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Lessons = await LessonRepository.GetAllLessons(CourseId);
+    }
+
+    void HandleDetailsClick(int? courseId, int? id)
+    {
+        navigation.NavigateTo($"/admin/lesson/details/{courseId}/{id}");
+    }
+
+    void HandleEditClick(int? courseId, int? id)
+    {
+        navigation.NavigateTo($"/admin/lesson/edit/{courseId}/{id}");
+    }
+
+    void HandleDeleteClick(int? courseId, int? id)
+    {
+        navigation.NavigateTo($"/admin/lesson/delete/{courseId}/{id}");
+    }
+
+    void HandleCreateClick(int? courseId)
+    {
+        navigation.NavigateTo($"/admin/lesson/create/{courseId}");
+    }
+}

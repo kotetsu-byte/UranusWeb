@@ -31,39 +31,14 @@ namespace UranusWeb.Client.Repositories
 
         public async Task<string> Create(CourseDto courseDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                    {
-                        name = courseDto.Name,
-                        description = courseDto.Description,
-                        price = courseDto.Price
-                    }
-                ),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PostAsync("api/Course", content);
+            var response = await _httpClient.PostAsJsonAsync("api/Course", courseDto);
 
             return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> Update(CourseDto courseDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    id = courseDto.Id,
-                    name = courseDto.Name,
-                    description = courseDto.Description,
-                    price = courseDto.Price
-                }
-                ),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PatchAsync("api/Course", content);
+            var response = await _httpClient.PatchAsJsonAsync("api/Course", courseDto);
 
             return await response.Content.ReadAsStringAsync();
         }

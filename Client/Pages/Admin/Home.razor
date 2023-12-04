@@ -1,0 +1,14 @@
+﻿@page "/admin"
+
+<h3>Welcome</h3>
+
+@code {
+    public IUserRepository _userRepository;
+
+    public IEnumerable<UserDto> Users { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Users = await _userRepository.GetAllUsers();
+    }
+}

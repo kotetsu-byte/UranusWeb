@@ -20,26 +20,28 @@ namespace UranusWeb.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllLessons()
+        [HttpGet("{courseId}")]
+        public async Task<IActionResult> GetAllLessons(int courseId)
         {
-            var lessonsDto = _mapper.Map<List<LessonDto>>(await _lessonRepository.GetAllLessons());
+            var lessonsDto = _mapper.Map<List<LessonDto>>(await _lessonRepository.GetAllLessons(courseId));
 
             return Ok(lessonsDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetLessonById(int id)
+        [HttpGet("{courseId}/{id}")]
+        public async Task<IActionResult> GetLessonById(int courseId, int id)
         {
-            var lessonDto = _mapper.Map<LessonDto>(await _lessonRepository.GetLessonById(id));
+            var lessonDto = _mapper.Map<LessonDto>(await _lessonRepository.GetLessonById(courseId, id));
 
             return Ok(lessonDto);
         }
 
-        [HttpPost]
-        public IActionResult CreateLesson([FromBody] LessonDto lessonDto)
+        [HttpPost("{courseId}")]
+        public IActionResult CreateLesson([FromBody] LessonDto lessonDto, int courseId)
         {
             var lesson = _mapper.Map<Lesson>(lessonDto);
+
+            lesson.CourseId = courseId;
 
             _lessonRepository.Create(lesson);
 

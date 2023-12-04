@@ -15,51 +15,30 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<LessonDto>> GetAllLessons()
+        public async Task<IEnumerable<LessonDto>> GetAllLessons(int courseId)
         {
-            var response = await _httpClient.GetAsync("/api/Lesson");
+            var response = await _httpClient.GetAsync($"/api/Lesson/{courseId}");
 
             return await response.Content.ReadFromJsonAsync<IEnumerable<LessonDto>>();
         }
 
-        public async Task<LessonDto> GetLessonById(int id)
+        public async Task<LessonDto> GetLessonById(int courseId, int id)
         {
-            var response = await _httpClient.GetAsync($"/api/Lesson/{id}");
+            var response = await _httpClient.GetAsync($"/api/Lesson/{courseId}/{id}");
 
             return await response.Content.ReadFromJsonAsync<LessonDto>();
         }
 
-        public async Task<string> Create(LessonDto lessonDto)
+        public async Task<string> Create(int courseId, LessonDto lessonDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    title = lessonDto.Title,
-                    content = lessonDto.Content
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PostAsync("/api/Lesson", content);
+            var response = await _httpClient.PostAsJsonAsync($"/api/Lesson/{courseId}", lessonDto);
 
             return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> Update(LessonDto lessonDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    id = lessonDto.Id,
-                    title = lessonDto.Title,
-                    content = lessonDto.Content
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PatchAsync("/api/Lesson", content);
+            var response = await _httpClient.PatchAsJsonAsync("/api/Lesson}", lessonDto);
 
             return await response.Content.ReadAsStringAsync();
         }

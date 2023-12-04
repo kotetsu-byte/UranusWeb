@@ -1,12 +1,23 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
 
 <div>
-    
-    <Header />
+    @if(!navigationManager.Uri.Contains("admin")) {
+        <Header />
+    } else
+    {
+        <AdminHeader />
+    }
 
         <div>
             @Body
         </div>
 
-    <Footer />
+    @if(!navigationManager.Uri.Contains("admin"))
+    {
+        <Footer />
+    } else
+    {
+        <AdminFooter />
+    }
 </div>

@@ -1,0 +1,78 @@
+﻿@page "/admin/course"
+@inject NavigationManager navigation
+<PageTitle>Courses</PageTitle>
+
+@if(Courses != null)
+{
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Lessons</th>
+            <th>Tests</th>
+            <th>Detials</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in Courses)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td><button @onclick="() => HandleLessonsClick(item.Id)">Lessons</button></td>
+                <td><button @onclick="() => HandleTestsClick(item.Id)">Tests</button></td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleEditClick(item.Id)">Edit</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+<button @onclick="() => HandleCreateClick()">Create Course</button>
+
+@code {
+    [Inject]
+    public ICourseRepository CourseRepository { get; set; }
+    public IEnumerable<CourseDto> Courses { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Courses = await CourseRepository.GetAllCourses();
+    }
+
+    void HandleLessonsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/lesson/{id}");
+    }
+
+    void HandleTestsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/test/{id}");
+    }
+
+    void HandleDetailsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/course/details/{id}");
+    }
+
+    void HandleEditClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/course/edit/{id}");
+    }
+
+    void HandleDeleteClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/course/delete/{id}");
+    }
+
+    void HandleCreateClick()
+    {
+        navigation.NavigateTo("/admin/course/create");
+    }
+}

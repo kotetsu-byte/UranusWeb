@@ -1,0 +1,41 @@
+﻿@page "/admin/course/update/{Id:int}"
+@inject NavigationManager _navigation
+
+<EditForm Model="Model" OnSubmit="() => Submit()">
+    <div class="form-control">
+        <label>Name</label>
+        <input type="text" class="form-control" @bind-value="Model!.Name" />
+    </div>
+    <div class="form-control">
+        <label>Description</label>
+        <input type="text" class="form-control" @bind-value="Model!.Description" />
+    </div>
+    <div class="form-control">
+        <label>Price</label>
+        <input type="text" class="form-control" @bind-value="Model!.Price" />
+    </div>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public ICourseRepository? _courseRepository { get; set; }
+
+    public CourseDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _courseRepository.GetCourseById(Id);
+    }
+
+    async Task Submit()
+    {
+        await _courseRepository.Update(Model);
+
+        _navigation.NavigateTo("/admin/course");
+    }
+}
