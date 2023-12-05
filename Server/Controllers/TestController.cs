@@ -20,26 +20,28 @@ namespace UranusWeb.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllTests()
+        [HttpGet("{courseId}")]
+        public async Task<IActionResult> GetAllTests(int courseId)
         {
-            var testsDto = _mapper.Map<List<TestDto>>(await _testRepository.GetAllTests());
+            var testsDto = _mapper.Map<List<TestDto>>(await _testRepository.GetAllTests(courseId));
 
             return Ok(testsDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetTestById(int id)
+        [HttpGet("{courseId}/{id}")]
+        public async Task<IActionResult> GetTestById(int courseId, int id)
         {
-            var testDto = _mapper.Map<TestDto>(await _testRepository.GetTestById(id));
+            var testDto = _mapper.Map<TestDto>(await _testRepository.GetTestById(courseId, id));
 
             return Ok(testDto);
         }
 
-        [HttpPost]
-        public IActionResult CreateTest([FromBody] TestDto testDto) 
+        [HttpPost("{courseId}")]
+        public IActionResult CreateTest([FromBody] TestDto testDto, int courseId) 
         {
             var test = _mapper.Map<Test>(testDto);
+
+            test.CourseId = courseId;
 
             _testRepository.Create(test);
 

@@ -14,14 +14,14 @@ namespace UranusWeb.Server.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Test>> GetAllTests()
+        public async Task<IEnumerable<Test>> GetAllTests(int courseId)
         {
-            return await _context.Tests.ToListAsync();
+            return await _context.Tests.Where(t => t.CourseId == courseId).ToListAsync();
         }
 
-        public async Task<Test> GetTestById(int id)
+        public async Task<Test> GetTestById(int courseId, int id)
         {
-            return await _context.Tests.Where(t => t.Id == id).FirstOrDefaultAsync();
+            return await _context.Tests.Where(t => t.CourseId == courseId && t.Id == id).FirstOrDefaultAsync();
         }
 
         public bool Create(Test test)

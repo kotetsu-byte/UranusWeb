@@ -1,0 +1,71 @@
+﻿@page "/admin/doc/{CourseId:int}/{LessonId:int}/{HomeworkId:int}"
+@inject NavigationManager navigation
+<PageTitle>Materials</PageTitle>
+
+@if(Materials != null)
+{
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Url</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in Materials)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Url</td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleEditClick(item.Id)">Edit</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+<button @onclick="() => HandleCreateClick()">Create Course</button>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    [Parameter]
+    public int HomeworkId { get; set; }
+
+    [Inject]
+    public IMaterialRepository MaterialRepository { get; set; }
+    public IEnumerable<MaterialDto> Materials { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Materials = await MaterialRepository.GetAllMaterials(CourseId, LessonId, HomeworkId);
+    }
+
+    void HandleDetailsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/material/details/{CourseId}/{LessonId}/{HomeworkId}/{id}");
+    }
+
+    void HandleEditClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/material/edit/{CourseId}/{LessonId}/{HomeworkId}/{id}");
+    }
+
+    void HandleDeleteClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/material/delete/{CourseId}/{LessonId}/{HomeworkId}/{id}");
+    }
+
+    void HandleCreateClick()
+    {
+        navigation.NavigateTo($"/admin/material/create/{CourseId}/{LessonId}/{HomeworkId}");
+    }
+}

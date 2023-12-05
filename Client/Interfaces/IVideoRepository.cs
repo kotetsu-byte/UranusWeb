@@ -4,9 +4,9 @@ namespace UranusWeb.Client.Interfaces
 {
     public interface IVideoRepository
     {
-        Task<IEnumerable<VideoDto>> GetAllVideos();
-        Task<VideoDto> GetVideoById(int id);
-        Task<string> Create(VideoDto videoDto);
+        Task<IEnumerable<VideoDto>> GetAllVideos(int courseId, int lessonId);
+        Task<VideoDto> GetVideoById(int courseId, int lessonId, int id);
+        Task<string> Create(int courseId, int lessonId, VideoDto videoDto);
         Task<string> Update(VideoDto videoDto);
         Task<string> Delete(int id);
     }

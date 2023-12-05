@@ -1,0 +1,77 @@
+﻿@page "/admin/lesson/{CourseId:int}"
+@inject NavigationManager navigation
+<PageTitle>Homeworks</PageTitle>
+
+@if(Homeworks != null)
+{
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th>Materials</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in Homeworks)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Description</td>
+                <td>@item.Deadline</td>
+                <td><button @onclick="() => HandleMaterialsClick(item.Id)">Materials</button></td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleEditClick(item.Id)">Edit</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+<button @onclick="() => HandleCreateClick()">Create Lesson</button>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    [Inject]
+    public IHomeworkRepository HomeworkRepository { get; set; }
+    public IEnumerable<HomeworkDto> Homeworks { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Homeworks = await HomeworkRepository.GetAllHomeworks(CourseId, LessonId);
+    }
+
+    void HandleMaterialsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/material/{CourseId}/{LessonId}/{id}");
+    }
+
+    void HandleDetailsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/homework/details/{CourseId}/{LessonId}/{id}");
+    }
+
+    void HandleEditClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/homework/edit/{CourseId}/{LessonId}/{id}");
+    }
+
+    void HandleDeleteClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/homework/delete/{CourseId}/{LessonId}/{id}");
+    }
+
+    void HandleCreateClick()
+    {
+        navigation.NavigateTo($"/admin/homework/create/{CourseId}/{LessonId}");
+    }
+}

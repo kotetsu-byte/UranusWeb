@@ -1,0 +1,37 @@
+﻿@page "/admin/homework/details/{CourseId:int}/{LessonId:int}/{Id:int}"
+
+<table class="table">
+    <tr>
+        <td>Title</td>
+        <td>@Model.Title</td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td>@Model.Description</td>
+    </tr>
+    <tr>
+        <td>Deadline</td>
+        <td>@Model.Deadline</td>
+    </tr>
+</table>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    [Inject]
+    public IHomeworkRepository? _homeworkRepository { get; set; }
+
+    public HomeworkDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _homeworkRepository.GetHomeworkById(CourseId, LessonId, Id);
+    }
+}

@@ -1,0 +1,43 @@
+﻿@page "/admin/doc/update/{CourseId:int}/{Lesson:int}/{Id:int}"
+@inject NavigationManager _navigation
+
+<EditForm Model="Model" OnSubmit="() => Submit()">
+    <div class="form-control">
+        <label>Title</label>
+        <input type="text" class="form-control" @bind-value="Model!.Title" />
+    </div>
+    <div class="form-control">
+        <label>Url</label>
+        <input type="text" class="form-control" @bind-value="Model!.Url" />
+    </div>
+    <br />
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public IDocRepository? _docRepository { get; set; }
+
+    public DocDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _docRepository.GetDocById(CourseId, LessonId, Id);
+    }
+
+    async Task Submit()
+    {
+        await _docRepository.Update(Model);
+
+        _navigation.NavigateTo($"/admin/doc/{CourseId}/{LessonId}");
+    }
+}

@@ -20,27 +20,31 @@ namespace UranusWeb.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllDocs()
+        [HttpGet("{courseId}/{lessonId}")]
+        public async Task<IActionResult> GetAllDocs(int courseId, int lessonId)
         {
-            var docsDto = _mapper.Map<List<DocDto>>(await _docRepository.GetAllDocs());
+            var docsDto = _mapper.Map<List<DocDto>>(await _docRepository.GetAllDocs(courseId, lessonId));
 
             return Ok(docsDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetDocById(int id)
+        [HttpGet("{courseId}/{lessonId}/{id}")]
+        public async Task<IActionResult> GetDocById(int courseId, int lessonId, int id)
         {
-            var docDto = _mapper.Map<DocDto>(await _docRepository.GetDocById(id));
+            var docDto = _mapper.Map<DocDto>(await _docRepository.GetDocById(courseId, lessonId, id));
 
             return Ok(docDto);
         }
 
        
-        [HttpPost]
-        public IActionResult CreateDoc([FromBody] DocDto docDto) 
+        [HttpPost("{courseId}/{lessonId}")]
+        public IActionResult CreateDoc([FromBody] DocDto docDto, int courseId, int lessonId) 
         {
             var doc = _mapper.Map<Doc>(docDto);
+
+            doc.CourseId = courseId;
+
+            doc.LessonId = lessonId;
 
             _docRepository.Create(doc);
 

@@ -20,26 +20,30 @@ namespace UranusWeb.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllHomeworks()
+        [HttpGet("{courseId}/{lessonId}")]
+        public async Task<IActionResult> GetAllHomeworks(int courseId, int lessonId)
         {
-            var homeworksDto = _mapper.Map<List<HomeworkDto>>(await _homeworkRepository.GetAllHomeworks());
+            var homeworksDto = _mapper.Map<List<HomeworkDto>>(await _homeworkRepository.GetAllHomeworks(courseId, lessonId));
 
             return Ok(homeworksDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetHomeworkById(int id)
+        [HttpGet("{courseId}/{lessonId}/{id}")]
+        public async Task<IActionResult> GetHomeworkById(int courseId, int lessonId, int id)
         {
-            var homeworkDto = _mapper.Map<HomeworkDto>(await _homeworkRepository.GetHomeworkById(id));
+            var homeworkDto = _mapper.Map<HomeworkDto>(await _homeworkRepository.GetHomeworkById(courseId, lessonId, id));
 
             return Ok(homeworkDto);
         }
 
-        [HttpPost]
-        public IActionResult CreateHomework([FromBody] HomeworkDto homeworkDto)
+        [HttpPost("{courseId}/{lessonId}")]
+        public IActionResult CreateHomework([FromBody] HomeworkDto homeworkDto, int courseId, int lessonId)
         {
             var homework = _mapper.Map<Homework>(homeworkDto);
+
+            homework.CourseId = courseId;
+
+            homework.LessonId = lessonId;
 
             _homeworkRepository.Create(homework);
 

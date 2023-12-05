@@ -4,9 +4,9 @@ namespace UranusWeb.Client.Interfaces
 {
     public interface ITestRepository
     {
-        Task<IEnumerable<TestDto>> GetAllTests();
-        Task<TestDto> GetTestById(int id);
-        Task<string> Create(TestDto testDto);
+        Task<IEnumerable<TestDto>> GetAllTests(int courseId);
+        Task<TestDto> GetTestById(int courseId, int id);
+        Task<string> Create(int courseId, TestDto testDto);
         Task<string> Update(TestDto testDto);
         Task<string> Delete(int id);
     }

@@ -15,51 +15,30 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<VideoDto>> GetAllVideos()
+        public async Task<IEnumerable<VideoDto>> GetAllVideos(int courseId, int lessonId)
         {
-            var response = await _httpClient.GetAsync("/api/Video");
+            var response = await _httpClient.GetAsync($"/api/Video/{courseId}/{lessonId}");
 
             return await response.Content.ReadFromJsonAsync<IEnumerable<VideoDto>>();
         }
 
-        public async Task<VideoDto> GetVideoById(int id)
+        public async Task<VideoDto> GetVideoById(int courseId, int lessonId, int id)
         {
-            var response = await _httpClient.GetAsync($"/api/Video/{id}");
+            var response = await _httpClient.GetAsync($"/api/Video/{courseId}/{lessonId}/{id}");
 
             return await response.Content.ReadFromJsonAsync<VideoDto>();
         }
 
-        public async Task<string> Create(VideoDto videoDto)
+        public async Task<string> Create(int courseId, int lessonId, VideoDto videoDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    title = videoDto.Title,
-                    url = videoDto.Url,
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PostAsync("/api/Video", content);
+            var response = await _httpClient.PostAsJsonAsync($"/api/Video/{courseId}/{lessonId}", videoDto);
 
             return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> Update(VideoDto videoDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    id = videoDto.Id,
-                    title = videoDto.Title,
-                    url = videoDto.Url,
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PatchAsync("/api/Video", content);
+            var response = await _httpClient.PostAsJsonAsync("/api/Video", videoDto);
 
             return await response.Content.ReadAsStringAsync();
         }

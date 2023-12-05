@@ -20,26 +20,30 @@ namespace UranusWeb.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllVideos()
+        [HttpGet("{courseId}/{lessonId}")]
+        public async Task<IActionResult> GetAllVideos(int courseId, int lessonId)
         {
-            var videosDto = _mapper.Map<List<VideoDto>>(await _videoRepository.GetAllVideos());
+            var videosDto = _mapper.Map<List<VideoDto>>(await _videoRepository.GetAllVideos(courseId, lessonId));
 
             return Ok(videosDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetVideoById(int id)
+        [HttpGet("{courseId}/{lessonId}/{id}")]
+        public async Task<IActionResult> GetVideoById(int courseId, int lessonId, int id)
         {
-            var videDto = _mapper.Map<VideoDto>(await _videoRepository.GetVideoById(id));
+            var videDto = _mapper.Map<VideoDto>(await _videoRepository.GetVideoById(courseId, lessonId, id));
 
             return Ok(videDto);
         }
 
-        [HttpPost]
-        public IActionResult CreateVideo([FromBody] VideoDto videoDto)
+        [HttpPost("{courseId}/{lessonId}")]
+        public IActionResult CreateVideo([FromBody] VideoDto videoDto, int courseId, int lessonId)
         {
             var video = _mapper.Map<Video>(videoDto);
+
+            video.CourseId = courseId;
+
+            video.LessonId = lessonId;
 
             _videoRepository.Create(video);
 

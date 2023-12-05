@@ -1,0 +1,58 @@
+﻿@page "/admin/test/create/{CourseId:int}"
+@inject ITestRepository _testRepository
+@inject NavigationManager _navigation
+
+@if(Model != null)
+{
+    <EditForm Model="Model" OnSubmit="() => Submit()">
+        <div class="form-control">
+            <label>Question</label>
+            <input type="text" class="form-control" @bind-value="Model!.Question" />
+        </div>
+        <div class="form-control">
+            <label>Answer 1</label>
+            <input type="text" class="form-control" @bind-value="Model!.Answer1" />
+        </div>
+        <div class="form-control">
+            <label>Answer 2</label>
+            <input type="text" class="form-control" @bind-value="Model!.Answer2" />
+        </div>
+        <div class="form-control">
+            <label>Answer 3</label>
+            <input type="text" class="form-control" @bind-value="Model!.Answer3" />
+        </div>
+        <div class="form-control">
+            <label>Answer 4</label>
+            <input type="text" class="form-control" @bind-value="Model!.Answer4 " />
+        </div>
+        <div class="form-control">
+            <label>Correct answer</label>
+            <input type="text" class="form-control" @bind-value="Model!.CorrectAnswer" />
+        </div>
+        <div class="form-control">
+            <label>Points</label>
+            <input type="text" class="form-control" @bind-value="Model!.Points" />
+        </div>
+        <br />
+        <button type="submit">Submit</button>
+    </EditForm>
+} else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    async Task Submit()
+    {
+        await _testRepository.Create(CourseId, Model);
+
+        _navigation.NavigateTo($"/admin/test/{CourseId}");
+    }
+
+    public TestDto? Model { get; set; }
+}

@@ -9,6 +9,10 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
+builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Services.AddScoped<IDocRepository, DocRepository>();
+builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 await builder.Build().RunAsync();

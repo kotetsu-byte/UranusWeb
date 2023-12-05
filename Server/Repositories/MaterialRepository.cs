@@ -14,14 +14,14 @@ namespace UranusWeb.Server.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Material>> GetAllMaterials()
+        public async Task<IEnumerable<Material>> GetAllMaterials(int courseId, int lessonId, int homeworkId)
         {
-            return await _context.Materials.ToListAsync();
+            return await _context.Materials.Where(m => m.CourseId == courseId && m.LessonId == lessonId && m.HomeworkId == homeworkId).ToListAsync();
         }
 
-        public async Task<Material> GetMaterialById(int id)
+        public async Task<Material> GetMaterialById(int courseId, int lessonId, int homeworkId, int id)
         {
-            return await _context.Materials.Where(m => m.Id == id).FirstOrDefaultAsync();
+            return await _context.Materials.Where(m => m.CourseId == courseId && m.LessonId == lessonId && m.HomeworkId == homeworkId && m.Id == id).FirstOrDefaultAsync();
         }
 
         public bool Create(Material material)

@@ -1,0 +1,75 @@
+﻿@page "/admin/test/{CourseId:int}"
+@inject NavigationManager navigation
+<PageTitle>Tests</PageTitle>
+
+@if(Tests != null)
+{
+    <table class="table">
+        <tr>
+            <th>Question</th>
+            <th>Answer 1</th>
+            <th>Answer 2</th>
+            <th>Answer 3</th>
+            <th>Answer 4</th>
+            <th>Correct answer</th>
+            <th>Points</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in Tests)
+        {
+            <tr>
+                <td>@item.Question</td>
+                <td>@item.Answer1</td>
+                <td>@item.Answer2</td>
+                <td>@item.Answer3</td>
+                <td>@item.Answer4</td>
+                <td>@item.CorrectAnswer</td>
+                <td>@item.Points</td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleEditClick(item.Id)">Edit</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+<button @onclick="() => HandleCreateClick()">Create Test</button>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Inject]
+    public ITestRepository TestRepository { get; set; }
+    public IEnumerable<TestDto> Tests { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tests = await TestRepository.GetAllTests(CourseId);
+    }
+
+    void HandleDetailsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/test/details/{CourseId}/{id}");
+    }
+
+    void HandleEditClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/test/edit/{CourseId}/{id}");
+    }
+
+    void HandleDeleteClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/test/delete/{CourseId}/{id}");
+    }
+
+    void HandleCreateClick()
+    {
+        navigation.NavigateTo($"/admin/test/create/{CourseId}");
+    }
+}

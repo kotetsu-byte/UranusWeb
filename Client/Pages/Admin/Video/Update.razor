@@ -1,0 +1,43 @@
+﻿@page "/admin/video/update/{CourseId:int}/{Lesson:int}/{Id:int}"
+@inject NavigationManager _navigation
+
+<EditForm Model="Model" OnSubmit="() => Submit()">
+    <div class="form-control">
+        <label>Title</label>
+        <input type="text" class="form-control" @bind-value="Model!.Title" />
+    </div>
+    <div class="form-control">
+        <label>Url</label>
+        <input type="text" class="form-control" @bind-value="Model!.Url" />
+    </div>
+    <br />
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public IVideoRepository? _videoRepository { get; set; }
+
+    public VideoDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _videoRepository.GetVideoById(CourseId, LessonId, Id);
+    }
+
+    async Task Submit()
+    {
+        await _videoRepository.Update(Model);
+
+        _navigation.NavigateTo($"/admin/video/{CourseId}/{LessonId}");
+    }
+}

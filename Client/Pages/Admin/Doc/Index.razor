@@ -1,0 +1,68 @@
+﻿@page "/admin/doc/{CourseId:int}/{LessonId:int}"
+@inject NavigationManager navigation
+<PageTitle>Docs</PageTitle>
+
+@if(Docs != null)
+{
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Url</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in Docs)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Url</td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleEditClick(item.Id)">Edit</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+<button @onclick="() => HandleCreateClick()">Create Course</button>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    [Inject]
+    public IDocRepository DocRepository { get; set; }
+    public IEnumerable<DocDto> Docs { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Docs = await DocRepository.GetAllDocs(CourseId, LessonId);
+    }
+
+    void HandleDetailsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/doc/details/{CourseId}/{LessonId}/{id}");
+    }
+
+    void HandleEditClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/doc/edit/{CourseId}/{LessonId}/{id}");
+    }
+
+    void HandleDeleteClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/doc/delete/{CourseId}/{LessonId}/{id}");
+    }
+
+    void HandleCreateClick()
+    {
+        navigation.NavigateTo($"/admin/doc/create/{CourseId}/{LessonId}");
+    }
+}

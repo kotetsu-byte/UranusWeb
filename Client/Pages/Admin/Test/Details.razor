@@ -1,0 +1,50 @@
+﻿@page "/admin/test/details/{CourseId:int}/{Id:int}"
+
+<table class="table">
+    <tr>
+        <td>Question</td>
+        <td>@Model.Question</td>
+    </tr>
+    <tr>
+        <td>Answer 1</td>
+        <td>@Model.Answer1</td>
+    </tr>
+    <tr>
+        <td>Answer 2</td>
+        <td>@Model.Answer2</td>
+    </tr>
+    <tr>
+        <td>Answer 3</td>
+        <td>@Model.Answer3</td>
+    </tr>
+    <tr>
+        <td>Answer 4</td>
+        <td>@Model.Answer4</td>
+    </tr>
+    <tr>
+        <td>Correct answer</td>
+        <td>@Model.CorrectAnswer</td>
+    </tr>
+    <tr>
+        <td>Points</td>
+        <td>@Model.Points</td>
+    </tr>
+</table>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public ITestRepository? _testRepository { get; set; }
+
+    public TestDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _testRepository.GetTestById(CourseId, Id);
+    }
+}

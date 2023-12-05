@@ -1,0 +1,45 @@
+﻿@page "/admin/homework/create/{CourseId:int}/{LessonId:int}"
+@inject IHomeworkRepository _homeworkRepository
+@inject NavigationManager _navigation
+
+@if(Model != null)
+{
+    <EditForm Model="Model" OnSubmit="() => Submit()">
+        <div class="form-control">
+            <label>Title</label>
+            <input type="text" class="form-control" @bind-value="Model!.Title" />
+        </div>
+        <div class="form-control">
+            <label>Description</label>
+            <input type="text" class="form-control" @bind-value="Model!.Description" />
+        </div>
+        <div class="form-control">
+            <label>Deadline</label>
+            <input type="text" class="form-control" @bind-value="Model!.Deadline" />
+        </div>
+        <br />
+        <button type="submit">Submit</button>
+    </EditForm>
+} else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    async Task Submit()
+    {
+        await _homeworkRepository.Create(CourseId, LessonId, Model);
+
+        _navigation.NavigateTo($"/admin/homework/{CourseId}/{LessonId}");
+    }
+
+    public HomeworkDto? Model { get; set; }
+}

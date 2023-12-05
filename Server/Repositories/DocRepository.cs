@@ -14,14 +14,14 @@ namespace UranusWeb.Server.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Doc>> GetAllDocs()
+        public async Task<IEnumerable<Doc>> GetAllDocs(int courseId, int lessonId)
         {
-            return await _context.Docs.ToListAsync();
+            return await _context.Docs.Where(d => d.CourseId == courseId && d.LessonId == lessonId).ToListAsync();
         }
 
-        public async Task<Doc> GetDocById(int id)
+        public async Task<Doc> GetDocById(int courseId, int lessonId, int id)
         {
-            return await _context.Docs.Where(d => d.Id == id).FirstOrDefaultAsync();
+            return await _context.Docs.Where(d => d.CourseId == courseId && d.LessonId == lessonId && d.Id == id).FirstOrDefaultAsync();
         }
 
         public bool Create(Doc doc)

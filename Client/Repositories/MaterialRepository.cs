@@ -15,51 +15,30 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<MaterialDto>> GetAllMaterials()
+        public async Task<IEnumerable<MaterialDto>> GetAllMaterials(int courseId, int lessonId, int homeworkId)
         {
-            var response = await _httpClient.GetAsync("/api/Material");
+            var response = await _httpClient.GetAsync($"/api/Material/{courseId}/{lessonId}/{homeworkId}");
 
             return await response.Content.ReadFromJsonAsync<IEnumerable<MaterialDto>>();
         }
 
-        public async Task<MaterialDto> GetMaterialById(int id)
+        public async Task<MaterialDto> GetMaterialById(int courseId, int lessonId, int homeworkId, int id)
         {
-            var response = await _httpClient.GetAsync($"/api/Material/{id}");
+            var response = await _httpClient.GetAsync($"/api/Material/{courseId}/{lessonId}/{homeworkId}/{id}");
 
             return await response.Content.ReadFromJsonAsync<MaterialDto>();
         }
 
-        public async Task<string> Create(MaterialDto materialDto)
+        public async Task<string> Create(int courseId, int lessonId, int homeworkId, MaterialDto materialDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    title = materialDto.Title,
-                    url = materialDto.Url
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PostAsync("/api/Material", content);
+            var response = await _httpClient.PostAsJsonAsync($"/api/Material/{courseId}/{lessonId}/{homeworkId}", materialDto);
 
             return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> Update(MaterialDto materialDto)
         {
-            StringContent content = new(
-               JsonSerializer.Serialize(new
-               {
-                   id = materialDto.Id,
-                   title = materialDto.Title,
-                   url = materialDto.Url
-               }),
-               Encoding.UTF8,
-               "application/json"
-            );
-
-            var response = await _httpClient.PatchAsync("/api/Material", content);
+            var response = await _httpClient.PatchAsJsonAsync("/api/Material", materialDto);
 
             return await response.Content.ReadAsStringAsync();
         }

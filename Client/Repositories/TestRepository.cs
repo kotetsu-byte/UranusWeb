@@ -16,61 +16,30 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<TestDto>> GetAllTests()
+        public async Task<IEnumerable<TestDto>> GetAllTests(int courseId)
         {
-            var response = await _httpClient.GetAsync("/api/Test");
+            var response = await _httpClient.GetAsync($"/api/Test/{courseId}");
 
             return await response.Content.ReadFromJsonAsync<IEnumerable<TestDto>>();
         }
 
-        public async Task<TestDto> GetTestById(int id)
+        public async Task<TestDto> GetTestById(int courseId, int id)
         {
-            var response = await _httpClient.GetAsync($"/api/Test/{id}");
+            var response = await _httpClient.GetAsync($"/api/Test/{courseId}/{id}");
 
             return await response.Content.ReadFromJsonAsync<TestDto>();
         }
 
-        public async Task<string> Create(TestDto testDto)
+        public async Task<string> Create(int courseId, TestDto testDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    question = testDto.Question,
-                    answer1 = testDto.Answer1,
-                    answer2 = testDto.Answer2,
-                    answer3 = testDto.Answer3,
-                    answer4 = testDto.Answer4,
-                    correctAnswer = testDto.CorrectAnswer,
-                    points = testDto.Points
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PostAsync("/api/Test", content);
+            var response = await _httpClient.PostAsJsonAsync($"/api/Test/{courseId}", testDto);
 
             return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> Update(TestDto testDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    id = testDto.Id,
-                    question = testDto.Question,
-                    answer1 = testDto.Answer1,
-                    answer2 = testDto.Answer2,
-                    answer3 = testDto.Answer3,
-                    answer4 = testDto.Answer4,
-                    correctAnswer = testDto.CorrectAnswer,
-                    points = testDto.Points
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PatchAsync("/api/Test", content);
+            var response = await _httpClient.PatchAsJsonAsync("/api/Test", testDto);
 
             return await response.Content.ReadAsStringAsync();
         }

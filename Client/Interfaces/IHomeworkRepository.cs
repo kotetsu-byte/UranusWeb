@@ -4,9 +4,9 @@ namespace UranusWeb.Client.Interfaces
 {
     public interface IHomeworkRepository
     {
-        Task<IEnumerable<HomeworkDto>> GetAllHomeworks();
-        Task<HomeworkDto> GetHomeworkById(int id);
-        Task<string> Create(HomeworkDto homework);
+        Task<IEnumerable<HomeworkDto>> GetAllHomeworks(int courseId, int lessonId);
+        Task<HomeworkDto> GetHomeworkById(int courseId, int lessonId, int id);
+        Task<string> Create(int courseId, int lessonId, HomeworkDto homework);
         Task<string> Update(HomeworkDto homework);
         Task<string> Delete(int id);
     }

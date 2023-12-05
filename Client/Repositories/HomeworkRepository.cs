@@ -15,53 +15,30 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<HomeworkDto>> GetAllHomeworks()
+        public async Task<IEnumerable<HomeworkDto>> GetAllHomeworks(int courseId, int lessonId)
         {
-            var response = await _httpClient.GetAsync("/api/Homework");
+            var response = await _httpClient.GetAsync($"/api/Homework/{courseId}/{lessonId}");
 
             return await response.Content.ReadFromJsonAsync<IEnumerable<HomeworkDto>>();
         }
 
-        public async Task<HomeworkDto> GetHomeworkById(int id)
+        public async Task<HomeworkDto> GetHomeworkById(int courseId, int lessonId, int id)
         {
-            var response = await _httpClient.GetAsync($"/api/Homework/{id}");
+            var response = await _httpClient.GetAsync($"/api/Homework/{courseId}/{lessonId}/{id}");
 
             return await response.Content.ReadFromJsonAsync<HomeworkDto>();
         }
 
-        public async Task<string> Create(HomeworkDto homeworkDto)
+        public async Task<string> Create(int courseId, int lessonId, HomeworkDto homeworkDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    title = homeworkDto.Title,
-                    description = homeworkDto.Description,
-                    deadline = homeworkDto.Deadline
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PostAsync("/api/Homework", content);
+            var response = await _httpClient.PostAsJsonAsync("/api/Homework", homeworkDto);
 
             return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> Update(HomeworkDto homeworkDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    id = homeworkDto.Id,
-                    title = homeworkDto.Title,
-                    description = homeworkDto.Description,
-                    deadline = homeworkDto.Deadline
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PatchAsync("/api/Homework", content);
+            var response = await _httpClient.PatchAsJsonAsync("/api/Homework", homeworkDto);
 
             return await response.Content.ReadAsStringAsync();
         }

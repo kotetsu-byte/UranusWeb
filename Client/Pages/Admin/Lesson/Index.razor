@@ -8,6 +8,9 @@
         <tr>
             <th>Title</th>
             <th>Content</th>
+            <th>Docs</th>
+            <th>Videos</th>
+            <th>Homeworks</th>
             <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -17,9 +20,12 @@
             <tr>
                 <td>@item.Title</td>
                 <td>@item.Content</td>
-                <td><button @onclick="() => HandleDetailsClick(item.CourseId, item.Id)">Details</button></td>
-                <td><button @onclick="() => HandleEditClick(item.CourseId, item.Id)">Edit</button></td>
-                <td><button @onclick="() => HandleDeleteClick(item.CourseId, item.Id)">Delete</button></td>
+                <td><button @onclick="() => HandleDocsClick(item.Id)">Docs</button></td>
+                <td><button @onclick="() => HandleVideosClick(item.Id)">Videos</button></td>
+                <td><button @onclick="() => HandleHomeworksClick(item.Id)">Homeworks</button></td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleEditClick(item.Id)">Edit</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
             </tr>
         }
     </table>
@@ -28,7 +34,7 @@
     <p>Sorry, no data in database yet</p>
 }
 
-<button @onclick="() => HandleCreateClick(CourseId)">Create Lesson</button>
+<button @onclick="() => HandleCreateClick()">Create Lesson</button>
 
 @code {
     [Parameter]
@@ -37,30 +43,44 @@
     [Inject]
     public ILessonRepository LessonRepository { get; set; }
     public IEnumerable<LessonDto> Lessons { get; set; }
-    public CourseDto Course { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Lessons = await LessonRepository.GetAllLessons(CourseId);
     }
 
-    void HandleDetailsClick(int? courseId, int? id)
+    void HandleDocsClick(int? id)
     {
-        navigation.NavigateTo($"/admin/lesson/details/{courseId}/{id}");
+        navigation.NavigateTo($"/admin/doc/{CourseId}/{id}");
     }
 
-    void HandleEditClick(int? courseId, int? id)
+    void HandleVideosClick(int? id)
     {
-        navigation.NavigateTo($"/admin/lesson/edit/{courseId}/{id}");
+        navigation.NavigateTo($"/admin/video/{CourseId}/{id}");
     }
 
-    void HandleDeleteClick(int? courseId, int? id)
+    void HandleHomeworksClick(int? id)
     {
-        navigation.NavigateTo($"/admin/lesson/delete/{courseId}/{id}");
+        navigation.NavigateTo($"/admin/homework/{CourseId}/{id}");
     }
 
-    void HandleCreateClick(int? courseId)
+    void HandleDetailsClick(int? id)
     {
-        navigation.NavigateTo($"/admin/lesson/create/{courseId}");
+        navigation.NavigateTo($"/admin/lesson/details/{CourseId}/{id}");
+    }
+
+    void HandleEditClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/lesson/edit/{CourseId}/{id}");
+    }
+
+    void HandleDeleteClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/lesson/delete/{CourseId}/{id}");
+    }
+
+    void HandleCreateClick()
+    {
+        navigation.NavigateTo($"/admin/lesson/create/{CourseId}");
     }
 }

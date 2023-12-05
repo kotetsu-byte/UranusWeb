@@ -1,5 +1,5 @@
-﻿@page "/admin/lesson/create/{CourseId:int}"
-@inject ILessonRepository _lessonRepository
+﻿@page "/admin/video/create/{CourseId:int}/{LessonId:int}"
+@inject IVideoRepository _videoRepository
 @inject NavigationManager _navigation
 
 @if(Model != null)
@@ -10,10 +10,10 @@
             <input type="text" class="form-control" @bind-value="Model!.Title" />
         </div>
         <div class="form-control">
-            <label>Content</label>
-            <input type="text" class="form-control" @bind-value="Model!.Content" />
+            <label>Url</label>
+            <input type="text" class="form-control" @bind-value="Model!.Url" />
         </div>
-
+        <br />
         <button type="submit">Submit</button>
     </EditForm>
 } else
@@ -25,14 +25,17 @@
     [Parameter]
     public int CourseId { get; set; }
 
+    [Parameter]
+    public int LessonId { get; set; }
+
     protected override void OnInitialized() => Model ??= new();
 
     async Task Submit()
     {
-        await _lessonRepository.Create(CourseId, Model);
+        await _videoRepository.Create(CourseId, LessonId, Model);
 
-        _navigation.NavigateTo($"/admin/lesson/{CourseId}");
+        _navigation.NavigateTo($"/admin/video/{CourseId}/{LessonId}");
     }
 
-    public LessonDto? Model { get; set; }
+    public VideoDto? Model { get; set; }
 }

@@ -1,0 +1,48 @@
+﻿@page "/admin/material/delete/{CourseId:int}/{LessonId:int}/{HomeworkId:int}/{Id:int}"
+@inject NavigationManager _navigation
+
+<h3>Are you sure to delete the course?</h3>
+
+<EditForm Model="Model" OnSubmit="() => Submit()">
+    <div class="form-control">
+        <label>Title</label>
+        <input type="text" class="form-control" @bind-value="Model!.Title" disabled />
+    </div>
+    <div class="form-control">
+        <label>Url</label>
+        <input type="text" class="form-control" @bind-value="Model!.Url" disabled />
+    </div>
+    <br />
+    <button type="submit">Delete</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int LessonId { get; set; }
+
+    [Parameter]
+    public int HomeworkId { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public IMaterialRepository? _materialRepository { get; set; }
+
+    public MaterialDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _materialRepository.GetMaterialById(CourseId, LessonId, HomeworkId, Id);
+    }
+
+    async Task Submit()
+    {
+        await _materialRepository.Delete(Id);
+
+        _navigation.NavigateTo($"/admin/material/{CourseId}/{LessonId}/{HomeworkId}");
+    }
+}

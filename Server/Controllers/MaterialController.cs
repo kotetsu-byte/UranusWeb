@@ -20,26 +20,30 @@ namespace UranusWeb.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllMaterials()
+        [HttpGet("{courseId}/{lessonId}/{homeworkId}")]
+        public async Task<IActionResult> GetAllMaterials(int courseId, int lessonId, int homeworkId)
         {
-            var materialsDto = _mapper.Map<List<MaterialDto>>(await _materialRepository.GetAllMaterials());
+            var materialsDto = _mapper.Map<List<MaterialDto>>(await _materialRepository.GetAllMaterials(courseId, lessonId, homeworkId));
 
             return Ok(materialsDto);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetMaterialById(int id)
+        [HttpGet("{courseId}/{lessonId}/{homeworkId}/{id}")]
+        public async Task<IActionResult> GetMaterialById(int courseId, int lessonId, int homeworkId, int id)
         {
-            var materialDto = _mapper.Map<MaterialDto>(await _materialRepository.GetMaterialById(id));
+            var materialDto = _mapper.Map<MaterialDto>(await _materialRepository.GetMaterialById(courseId, lessonId, homeworkId, id));
 
             return Ok(materialDto);
         }
 
-        [HttpPost]
-        public IActionResult CreateMaterial([FromBody] MaterialDto materialDto)
+        [HttpPost("{courseId}/{lessonId}/{homeworkId}")]
+        public IActionResult CreateMaterial([FromBody] MaterialDto materialDto, int courseId, int lessonId, int homeworkId)
         {
             var material = _mapper.Map<Material>(materialDto);
+
+            material.CourseId = courseId;
+            material.LessonId = lessonId;
+            material.HomeworkId = homeworkId;
 
             _materialRepository.Create(material);
 

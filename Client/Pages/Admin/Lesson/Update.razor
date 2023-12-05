@@ -35,6 +35,6 @@
     {
         await _lessonRepository.Update(Model);
 
-        _navigation.NavigateTo("/admin/course");
+        _navigation.NavigateTo($"/admin/lesson/{CourseId}");
     }
 }
