@@ -1,0 +1,71 @@
+﻿@page "/admin/part-video/{CourseId:int}/{AboutId:int}"
+@inject NavigationManager navigation
+<PageTitle>Course Part Videos</PageTitle>
+
+@if(PartVideos != null)
+{
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Docs</th>
+            <th>Videos</th>
+            <th>Homeworks</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in PartVideos)
+        {
+            <tr>
+                <td>@item.Content</td>
+                <td>@item.Price</td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleEditClick(item.Id)">Edit</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+<button @onclick="() => HandleCreateClick()">Create Lesson</button>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int AboutId { get; set; }
+
+    [Inject]
+    public IPartVideoRepository? PartVideoRepository { get; set; }
+    public IEnumerable<PartVideoDto>? PartVideos { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        PartVideos = await PartVideoRepository.GetAllPartVideos(CourseId, AboutId);
+    }
+
+    void HandleDetailsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/about/details/{CourseId}/{id}");
+    }
+
+    void HandleEditClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/about/edit/{CourseId}/{id}");
+    }
+
+    void HandleDeleteClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/about/delete/{CourseId}/{id}");
+    }
+
+    void HandleCreateClick()
+    {
+        navigation.NavigateTo($"/admin/about/create/{CourseId}");
+    }
+}

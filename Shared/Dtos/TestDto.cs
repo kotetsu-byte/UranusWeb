@@ -1,4 +1,4 @@
-﻿namespace UranusWeb.Server.Dtos
+﻿namespace UranusWeb.Shared.Dtos
 {
     public class TestDto
     {

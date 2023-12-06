@@ -1,0 +1,30 @@
+﻿@page "/admin/about/details/{CourseId:int}/{Id:int}"
+
+<table class="table">
+    <tr>
+        <td>Content</td>
+        <td>@Model.Content</td>
+    </tr>
+    <tr>
+        <td>Price</td>
+        <td>@Model.Price</td>
+    </tr>
+</table>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Inject]
+    public IAboutRepository? _aboutRepository { get; set; }
+
+    public AboutDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _aboutRepository.GetAboutById(CourseId, Id);
+    }
+}

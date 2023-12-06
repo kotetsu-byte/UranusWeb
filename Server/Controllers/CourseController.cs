@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UranusAdmin.Models;
-using UranusWeb.Server.Dtos;
+using UranusWeb.Shared.Dtos;
 using UranusWeb.Server.Interfaces;
 
 namespace UranusWeb.Server.Controllers

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using UranusAdmin.Models;
-using UranusWeb.Server.Dtos;
+using UranusWeb.Shared.Dtos;
 
 namespace UranusWeb.Server.Helper
 {

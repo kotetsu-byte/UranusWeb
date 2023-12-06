@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using UranusWeb.Client.Interfaces;
-using UranusWeb.Server.Dtos;
+using UranusWeb.Shared.Dtos;
 
 namespace UranusWeb.Client.Repositories
 {

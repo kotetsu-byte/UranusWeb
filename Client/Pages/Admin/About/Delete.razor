@@ -1,0 +1,42 @@
+﻿@page "/admin/about/delete/{CourseId:int}/{Id:int}"
+@inject NavigationManager _navigation
+
+<h3>Are you sure to delete about?</h3>
+
+<EditForm Model="Model" OnSubmit="() => Submit()">
+    <div class="form-control">
+        <label>Content</label>
+        <input type="text" class="form-control" @bind-value="Model!.Content" disabled />
+    </div>
+    <div class="form-control">
+        <label>Price</label>
+        <input type="text" class="form-control" @bind-value="Model!.Price" disabled />
+    </div>
+    <br />
+    <button type="submit">Delete</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Inject]
+    public IAboutRepository? _aboutRepository { get; set; }
+
+    public AboutDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _aboutRepository.GetAboutById(CourseId, Id);
+    }
+
+    async Task Submit()
+    {
+        await _aboutRepository.Delete(Id);
+
+        _navigation.NavigateTo($"/admin/about/{CourseId}");
+    }
+}

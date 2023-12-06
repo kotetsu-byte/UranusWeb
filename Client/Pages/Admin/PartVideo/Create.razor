@@ -1,0 +1,38 @@
+﻿@page "/admin/about/create/{CourseId:int}"
+@inject IAboutRepository _aboutRepository
+@inject NavigationManager _navigation
+
+@if(Model != null)
+{
+    <EditForm Model="Model" OnSubmit="() => Submit()">
+        <div class="form-control">
+            <label>Content</label>
+            <input type="text" class="form-control" @bind-value="Model!.Content" />
+        </div>
+        <div class="form-control">
+            <label>Price</label>
+            <input type="text" class="form-control" @bind-value="Model!.Price" />
+        </div>
+        <br />
+        <button type="submit">Submit</button>
+    </EditForm>
+} else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    async Task Submit()
+    {
+        await _aboutRepository.Create(CourseId, Model);
+
+        _navigation.NavigateTo($"/admin/about/{CourseId}");
+    }
+
+    public AboutDto? Model { get; set; }
+}

@@ -1,0 +1,58 @@
+﻿@page "/admin/review/{CourseId:int}/{AboutId:int}"
+@inject NavigationManager navigation
+<PageTitle>About</PageTitle>
+
+@if(Reviews != null)
+{
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Docs</th>
+            <th>Videos</th>
+            <th>Homeworks</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in Reviews)
+        {
+            <tr>
+                <td>@item.Author</td>
+                <td>@item.Text</td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+                <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int AboutId { get; set; }
+
+    [Inject]
+    public IReviewRepository? ReviewRepository { get; set; }
+    public IEnumerable<ReviewDto>? Reviews { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Reviews = await ReviewRepository.GetAllReviews(CourseId, AboutId);
+    }
+
+    void HandleDetailsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/review/details/{CourseId}/{AboutId}/{id}");
+    }
+
+    void HandleDeleteClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/review/delete/{CourseId}/{AboutId}/{id}");
+    }
+}

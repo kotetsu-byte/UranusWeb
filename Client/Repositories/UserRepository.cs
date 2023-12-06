@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using UranusWeb.Client.Interfaces;
-using UranusWeb.Server.Dtos;
+using UranusWeb.Shared.Dtos;
 
 namespace UranusWeb.Client.Repositories
 {
@@ -31,41 +31,14 @@ namespace UranusWeb.Client.Repositories
 
         public async Task<string> Create(UserDto userDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    firstName = userDto.FirstName,
-                    lastName = userDto.LastName,
-                    email = userDto.Email,
-                    address = userDto.Address,
-                    username = userDto.Username
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PostAsync("/api/User", content);
+            var response = await _httpClient.PostAsJsonAsync("/api/User", userDto);
 
             return await response.Content.ReadAsStringAsync();
         }
 
         public async Task<string> Update(UserDto userDto)
         {
-            StringContent content = new(
-                JsonSerializer.Serialize(new
-                {
-                    id = userDto.Id,
-                    firstName = userDto.FirstName,
-                    lastName = userDto.LastName,
-                    email = userDto.Email,
-                    address = userDto.Address,
-                    username = userDto.Username
-                }),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _httpClient.PatchAsync("/api/User", content);
+            var response = await _httpClient.PatchAsJsonAsync("/api/User", userDto);
 
             return await response.Content.ReadAsStringAsync();
         }

@@ -1,0 +1,45 @@
+﻿@page "/admin/about/delete/{CourseId:int}/{AboutId:int}/{Id:int}"
+@inject NavigationManager _navigation
+
+<h3>Are you sure to delete the review?</h3>
+
+<EditForm Model="Model" OnSubmit="() => Submit()">
+    <div class="form-control">
+        <label>Author</label>
+        <input type="text" class="form-control" @bind-value="Model!.Author" disabled />
+    </div>
+    <div class="form-control">
+        <label>Text</label>
+        <input type="text" class="form-control" @bind-value="Model!.Text" disabled />
+    </div>
+    <br />
+    <button type="submit">Delete</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int AboutId { get; set; }
+
+    [Inject]
+    public IReviewRepository? _reviewRepository { get; set; }
+
+    public ReviewDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _reviewRepository.GetReviewById(CourseId, AboutId, Id);
+    }
+
+    async Task Submit()
+    {
+        await _reviewRepository.Delete(Id);
+
+        _navigation.NavigateTo($"/admin/review/{CourseId}/{AboutId}");
+    }
+}

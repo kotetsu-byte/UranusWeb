@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using UranusWeb.Client.Pages;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace UranusAdmin.Models
@@ -13,5 +14,6 @@ namespace UranusAdmin.Models
         public double? Price { get; set; }
         public ICollection<Test>? Tests { get; set; }
         public ICollection<Lesson>? Lessons { get; set; }
+        public About? About { get; set; }
     }
 }

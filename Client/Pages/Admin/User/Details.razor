@@ -1,0 +1,39 @@
+﻿@page "/admin/user/details/{Id:int}"
+
+<table class="table">
+    <tr>
+        <td>First name</td>
+        <td>@Model.FirstName</td>
+    </tr>
+    <tr>
+        <td>Last name</td>
+        <td>@Model.LastName</td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td>@Model.Email</td>
+    </tr>
+    <tr>
+        <td>Address</td>
+        <td>@Model.Address</td>
+    </tr>
+    <tr>
+        <td>Username</td>
+        <td>@Model.Username</td>
+    </tr>
+</table>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public IUserRepository? _userRepository { get; set; }
+
+    public UserDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _userRepository.GetUserById(Id);
+    }
+}
