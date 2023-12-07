@@ -14,7 +14,7 @@ namespace UranusWeb.Server.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<PartVideo>> GetAllPartVideos(int courseId, int aboutId)
+        public async Task<ICollection<PartVideo>> GetAllPartVideos(int courseId, int aboutId)
         {
             return await _context.PartVideos.Where(pv => pv.CourseId == courseId && pv.AboutId == aboutId).ToListAsync();
         }

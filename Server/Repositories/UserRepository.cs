@@ -14,7 +14,7 @@ namespace UranusWeb.Server.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<ICollection<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
         }

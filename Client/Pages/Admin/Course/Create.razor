@@ -14,10 +14,14 @@
             <input type="text" class="form-control" @bind-value="Model!.Description" />
         </div>
         <div class="form-control">
+            <label>Image URL</label>
+            <InputFile OnChange="() => " />
+        </div>
+        <div class="form-control">
             <label>Price</label>
             <input type="text" class="form-control" @bind-value="Model!.Price" />
         </div>
-
+        <br />
         <button type="submit">Submit</button>
     </EditForm>
 } else
@@ -36,4 +40,9 @@
     }
 
     public CourseDto? Model { get; set; }
+
+    async Task UploadImage()
+    {
+        
+    }
 }

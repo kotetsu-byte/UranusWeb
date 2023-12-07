@@ -15,11 +15,11 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<DocDto>> GetAllDocs(int courseId, int lessonId)
+        public async Task<ICollection<DocDto>> GetAllDocs(int courseId, int lessonId)
         {
             var response = await _httpClient.GetAsync($"/api/Doc/{courseId}/{lessonId}");
 
-            return await response.Content.ReadFromJsonAsync<IEnumerable<DocDto>>();
+            return await response.Content.ReadFromJsonAsync<ICollection<DocDto>>();
         }
 
         public async Task<DocDto> GetDocById(int courseId, int lessonId, int id)

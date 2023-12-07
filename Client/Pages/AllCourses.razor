@@ -1,0 +1,36 @@
+﻿@page "/course"
+@inject NavigationManager _navigation
+
+<PageTitle>Courses</PageTitle>
+
+<div style="padding: 60px 150px;">
+    <p>All Courses</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+        @foreach(var item in Courses)
+        {
+            <div style="width: 200px;" @onclick="() => HandleCourseChoiceClick(item.Id)">
+                <img src="@item.ImgUrl" />
+                <p>@item.Name</p>
+                <p>@item.Description</p>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    public ICollection<CourseDto>? Courses { get; set; }
+
+    [Inject]
+    public ICourseRepository? _courseRepository { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Courses = await _courseRepository.GetAllCourses();
+    }
+
+    void HandleCourseChoiceClick(int? id)
+    {
+        _navigation.NavigateTo($"/course/{id}");
+    }
+}

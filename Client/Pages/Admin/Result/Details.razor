@@ -1,0 +1,33 @@
+﻿@page "/admin/result/details/{CourseId:int}/{AboutId:int}/{Id:int}"
+
+<table class="table">
+    <tr>
+        <td>Username</td>
+        <td>@Model.Username</td>
+    </tr>
+    <tr>
+        <td>Points</td>
+        <td>@Model.Points</td>
+    </tr>
+</table>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int AboutId { get; set; }
+
+    [Inject]
+    public IResultRepository? _resultRepository { get; set; }
+
+    public ResultDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _resultRepository.GetResultById(CourseId, AboutId, Id);
+    }
+}

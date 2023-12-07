@@ -5,7 +5,7 @@ namespace UranusWeb.Server.Interfaces
 {
     public interface IFAQRepository
     {
-        Task<IEnumerable<FAQ>> GetAllFAQs(int courseId, int aboutId);
+        Task<ICollection<FAQ>> GetAllFAQs(int courseId, int aboutId);
         Task<FAQ> GetFAQById(int courseId, int aboutId, int id);
         bool Create(FAQ faq);
         bool Update(FAQ faq);

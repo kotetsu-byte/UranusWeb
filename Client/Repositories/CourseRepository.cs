@@ -15,11 +15,11 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<CourseDto>> GetAllCourses()
+        public async Task<ICollection<CourseDto>> GetAllCourses()
         {
             var response = await _httpClient.GetAsync("api/Course");
 
-            return await response.Content.ReadFromJsonAsync<IEnumerable<CourseDto>>();
+            return await response.Content.ReadFromJsonAsync<ICollection<CourseDto>>();
         }
 
         public async Task<CourseDto> GetCourseById(int id)

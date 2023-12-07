@@ -36,6 +36,22 @@ namespace UranusWeb.Server.Controllers
             return Ok(courseDto);
         }
 
+        [HttpGet("AboutId/{courseId}")]
+        public async Task<IActionResult> GetAboutId(int courseId)
+        {
+            var id = await _courseRepository.GetAboutId(courseId);
+
+            return Ok(id);
+        }
+
+        [HttpGet("PartVideoId/{courseId}")]
+        public async Task<IActionResult> GetPartVideoId(int courseId)
+        {
+            var id = await _courseRepository.GetPartVideoId(courseId);
+
+            return Ok(id);
+        }
+
         [HttpPost]
         public IActionResult CreateCourse([FromBody] CourseDto courseDto)
         {

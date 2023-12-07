@@ -39,7 +39,7 @@
 
     [Inject]
     public IReviewRepository? ReviewRepository { get; set; }
-    public IEnumerable<ReviewDto>? Reviews { get; set; }
+    public ICollection<ReviewDto>? Reviews { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

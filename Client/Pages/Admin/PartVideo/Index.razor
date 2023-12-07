@@ -6,11 +6,7 @@
 {
     <table class="table">
         <tr>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Docs</th>
-            <th>Videos</th>
-            <th>Homeworks</th>
+            <th>Url</th>
             <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -18,8 +14,7 @@
         @foreach (var item in PartVideos)
         {
             <tr>
-                <td>@item.Content</td>
-                <td>@item.Price</td>
+                <td>@item.Url</td>
                 <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
                 <td><button @onclick="() => HandleEditClick(item.Id)">Edit</button></td>
                 <td><button @onclick="() => HandleDeleteClick(item.Id)">Delete</button></td>
@@ -42,7 +37,7 @@
 
     [Inject]
     public IPartVideoRepository? PartVideoRepository { get; set; }
-    public IEnumerable<PartVideoDto>? PartVideos { get; set; }
+    public ICollection<PartVideoDto>? PartVideos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,21 +46,21 @@
 
     void HandleDetailsClick(int? id)
     {
-        navigation.NavigateTo($"/admin/about/details/{CourseId}/{id}");
+        navigation.NavigateTo($"/admin/part-video/details/{CourseId}/{AboutId}/{id}");
     }
 
     void HandleEditClick(int? id)
     {
-        navigation.NavigateTo($"/admin/about/edit/{CourseId}/{id}");
+        navigation.NavigateTo($"/admin/part-video/edit/{CourseId}/{AboutId}/{id}");
     }
 
     void HandleDeleteClick(int? id)
     {
-        navigation.NavigateTo($"/admin/about/delete/{CourseId}/{id}");
+        navigation.NavigateTo($"/admin/part-video/delete/{CourseId}/{AboutId}/{id}");
     }
 
     void HandleCreateClick()
     {
-        navigation.NavigateTo($"/admin/about/create/{CourseId}");
+        navigation.NavigateTo($"/admin/part-video/create/{CourseId}/{AboutId}");
     }
 }

@@ -4,7 +4,7 @@ namespace UranusWeb.Server.Interfaces
 {
     public interface IReviewRepository
     {
-        Task<IEnumerable<Review>> GetAllReviews(int courseId, int aboutId);
+        Task<ICollection<Review>> GetAllReviews(int courseId, int aboutId);
         Task<Review> GetReviewById(int courseId, int aboutId, int id);
         bool Create(Review review);
         bool Update(Review review);

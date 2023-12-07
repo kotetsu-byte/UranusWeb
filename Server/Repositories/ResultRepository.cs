@@ -14,7 +14,7 @@ namespace UranusWeb.Server.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Result>> GetAllResults(int courseId, int aboutId)
+        public async Task<ICollection<Result>> GetAllResults(int courseId, int aboutId)
         {
             return await _context.Results.Where(r => r.CourseId == courseId && r.AboutId == aboutId).ToListAsync();
         }

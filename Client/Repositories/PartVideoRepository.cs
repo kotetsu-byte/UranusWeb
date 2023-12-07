@@ -13,11 +13,11 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<PartVideoDto>> GetAllPartVideos(int courseId, int aboutId)
+        public async Task<ICollection<PartVideoDto>> GetAllPartVideos(int courseId, int aboutId)
         {
             var response = await _httpClient.GetAsync($"api/PartVideo/{courseId}/{aboutId}");
 
-            return await response.Content.ReadFromJsonAsync<IEnumerable<PartVideoDto>>();
+            return await response.Content.ReadFromJsonAsync<ICollection<PartVideoDto>>();
         }
 
         public async Task<PartVideoDto> GetPartVideoById(int courseId, int aboutId, int id)

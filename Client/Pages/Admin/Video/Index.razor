@@ -38,8 +38,8 @@
     public int LessonId { get; set; }
 
     [Inject]
-    public IVideoRepository VideoRepository { get; set; }
-    public IEnumerable<VideoDto> Videos { get; set; }
+    public IVideoRepository? VideoRepository { get; set; }
+    public ICollection<VideoDto>? Videos { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

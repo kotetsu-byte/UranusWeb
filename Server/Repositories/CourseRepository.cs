@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UranusAdmin.Models;
+using UranusWeb.Client.Pages;
 using UranusWeb.Server.Data;
 using UranusWeb.Server.Interfaces;
 
@@ -13,7 +14,7 @@ namespace UranusWeb.Server.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Course>> GetAllCourses()
+        public async Task<ICollection<Course>> GetAllCourses()
         {
             return await _context.Courses.ToListAsync();
         }
@@ -21,6 +22,16 @@ namespace UranusWeb.Server.Repositories
         public async Task<Course> GetCourseById(int id)
         {
             return await _context.Courses.Where(c => c.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<int?> GetAboutId(int courseId)
+        {
+            return await _context.Courses.Where(c => c.Id == courseId).Select(c => c.About.Id).FirstOrDefaultAsync();
+        }
+
+        public async Task<int?> GetPartVideoId(int courseId)
+        {
+            return await _context.Courses.Where(c => c.Id == courseId).Select(c => c.About.PartVideo.Id).FirstOrDefaultAsync();
         }
 
         public bool Create(Course course)

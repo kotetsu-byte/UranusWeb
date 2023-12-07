@@ -6,11 +6,9 @@
 {
     <table class="table">
         <tr>
-            <th>Title</th>
+            <th>Description</th>
             <th>Content</th>
-            <th>Docs</th>
-            <th>Videos</th>
-            <th>Homeworks</th>
+            <th>Price</th>
             <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -18,6 +16,7 @@
         @foreach (var item in Abouts)
         {
             <tr>
+                <td>@item.Description</td>
                 <td>@item.Content</td>
                 <td>@item.Price</td>
                 <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
@@ -30,7 +29,7 @@
 {
     <p>Sorry, no data in database yet</p>
 }
-@if(Abouts.Length == 0)
+@if(Abouts.Count == 0)
 {
     <button @onclick="() => HandleCreateClick()">Create Lesson</button>
 }

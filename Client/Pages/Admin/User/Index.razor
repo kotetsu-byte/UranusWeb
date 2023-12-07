@@ -32,7 +32,7 @@
 @code {
     [Inject]
     public IUserRepository _userRepository { get; set; }
-    public IEnumerable<UserDto>? Users { get; set; }
+    public ICollection<UserDto>? Users { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

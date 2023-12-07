@@ -4,7 +4,7 @@ namespace UranusWeb.Server.Interfaces
 {
     public interface IDocRepository
     {
-        Task<IEnumerable<Doc>> GetAllDocs(int courseId, int lessonId);
+        Task<ICollection<Doc>> GetAllDocs(int courseId, int lessonId);
         Task<Doc> GetDocById(int courseId, int lessonId, int id);
         bool Create(Doc doc);
         bool Update(Doc doc);

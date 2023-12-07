@@ -1,13 +1,9 @@
-﻿@page "/admin/about/details/{CourseId:int}/{Id:int}"
+﻿@page "/admin/part-video/details/{CourseId:int}/{AboutId:int}/{Id:int}"
 
 <table class="table">
     <tr>
-        <td>Content</td>
-        <td>@Model.Content</td>
-    </tr>
-    <tr>
-        <td>Price</td>
-        <td>@Model.Price</td>
+        <td>URL</td>
+        <td>@Model.Url</td>
     </tr>
 </table>
 
@@ -18,13 +14,16 @@
     [Parameter]
     public int CourseId { get; set; }
 
-    [Inject]
-    public IAboutRepository? _aboutRepository { get; set; }
+    [Parameter]
+    public int AboutId { get; set; }
 
-    public AboutDto? Model { get; set; }
+    [Inject]
+    public IPartVideoRepository? _partVideoRepository { get; set; }
+
+    public PartVideoDto? Model { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await _aboutRepository.GetAboutById(CourseId, Id);
+        Model = await _partVideoRepository.GetPartVideoById(CourseId, AboutId, Id);
     }
 }

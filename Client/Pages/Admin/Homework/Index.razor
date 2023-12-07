@@ -1,4 +1,4 @@
-﻿@page "/admin/lesson/{CourseId:int}"
+﻿@page "/admin/homework/{CourseId:int}/{LessonId:int}"
 @inject NavigationManager navigation
 <PageTitle>Homeworks</PageTitle>
 
@@ -43,7 +43,7 @@
 
     [Inject]
     public IHomeworkRepository HomeworkRepository { get; set; }
-    public IEnumerable<HomeworkDto> Homeworks { get; set; }
+    public ICollection<HomeworkDto> Homeworks { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

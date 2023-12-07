@@ -15,11 +15,11 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<HomeworkDto>> GetAllHomeworks(int courseId, int lessonId)
+        public async Task<ICollection<HomeworkDto>> GetAllHomeworks(int courseId, int lessonId)
         {
             var response = await _httpClient.GetAsync($"/api/Homework/{courseId}/{lessonId}");
 
-            return await response.Content.ReadFromJsonAsync<IEnumerable<HomeworkDto>>();
+            return await response.Content.ReadFromJsonAsync<ICollection<HomeworkDto>>();
         }
 
         public async Task<HomeworkDto> GetHomeworkById(int courseId, int lessonId, int id)

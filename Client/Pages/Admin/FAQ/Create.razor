@@ -1,0 +1,41 @@
+﻿@page "/admin/faq/create/{CourseId:int}/{AboutId:int}"
+@inject IFAQRepository _faqRepository
+@inject NavigationManager _navigation
+
+@if(Model != null)
+{
+    <EditForm Model="Model" OnSubmit="() => Submit()">
+        <div class="form-control">
+            <label>Question</label>
+            <input type="text" class="form-control" @bind-value="Model!.Question" />
+        </div>
+        <div class="form-control">
+            <label>Answer</label>
+            <input type="text" class="form-control" @bind-value="Model!.Answer" />
+        </div>
+        <br />
+        <button type="submit">Submit</button>
+    </EditForm>
+} else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int AboutId { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    async Task Submit()
+    {
+        await _faqRepository.Create(CourseId, AboutId, Model);
+
+        _navigation.NavigateTo($"/admin/faq/{CourseId}/{AboutId}");
+    }
+
+    public FAQDto? Model { get; set; }
+}

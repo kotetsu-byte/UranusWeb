@@ -5,6 +5,10 @@
 
 <EditForm Model="Model" OnSubmit="() => Submit()">
     <div class="form-control">
+        <label>Description</label>
+        <input type="text" class="form-control" @bind-value="Model!.Description" disabled />
+    </div>
+    <div class="form-control">
         <label>Content</label>
         <input type="text" class="form-control" @bind-value="Model!.Content" disabled />
     </div>

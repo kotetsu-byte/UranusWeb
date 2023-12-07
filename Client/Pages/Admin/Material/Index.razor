@@ -42,7 +42,7 @@
 
     [Inject]
     public IMaterialRepository MaterialRepository { get; set; }
-    public IEnumerable<MaterialDto> Materials { get; set; }
+    public ICollection<MaterialDto> Materials { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -15,11 +15,11 @@ namespace UranusWeb.Client.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        public async Task<ICollection<UserDto>> GetAllUsers()
         {
             var response = await _httpClient.GetAsync("/api/User");
 
-            return await response.Content.ReadFromJsonAsync<IEnumerable<UserDto>>();
+            return await response.Content.ReadFromJsonAsync<ICollection<UserDto>>();
         }
 
         public async Task<UserDto> GetUserById(int id)

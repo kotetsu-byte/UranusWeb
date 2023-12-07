@@ -39,7 +39,7 @@
 
     [Inject]
     public IDocRepository DocRepository { get; set; }
-    public IEnumerable<DocDto> Docs { get; set; }
+    public ICollection<DocDto> Docs { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

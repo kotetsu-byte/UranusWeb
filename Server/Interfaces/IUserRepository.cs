@@ -4,7 +4,7 @@ namespace UranusWeb.Server.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<User>> GetAllUsers();
+        Task<ICollection<User>> GetAllUsers();
         Task<User> GetUserById(int id);
         bool Create(User user);
         bool Update(User user);

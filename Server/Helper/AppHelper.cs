@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using UranusAdmin.Models;
+using UranusWeb.Server.Models;
 using UranusWeb.Shared.Dtos;
 
 namespace UranusWeb.Server.Helper
@@ -24,6 +25,18 @@ namespace UranusWeb.Server.Helper
             CreateMap<UserDto, User>();
             CreateMap<Video, VideoDto>();
             CreateMap<VideoDto, Video>();
+            CreateMap<UserCourse, UserCourseDto>();
+            CreateMap<UserCourseDto, UserCourse>();
+            CreateMap<About, AboutDto>();
+            CreateMap<AboutDto, About>();
+            CreateMap<FAQ, FAQDto>();
+            CreateMap<FAQDto, FAQ>();
+            CreateMap<Review, ReviewDto>();
+            CreateMap<ReviewDto, Review>();
+            CreateMap<Result, ResultDto>();
+            CreateMap<ResultDto, Result>();
+            CreateMap<PartVideo, PartVideoDto>();
+            CreateMap<PartVideoDto, PartVideo>();
         }
     }
 }

@@ -1,0 +1,45 @@
+﻿@page "/admin/faq/delete/{CourseId:int}/{AboutId:int}/{Id:int}"
+@inject NavigationManager _navigation
+
+<h3>Are you sure to delete the course?</h3>
+
+<EditForm Model="Model" OnSubmit="() => Submit()">
+    <div class="form-control">
+        <label>Question</label>
+        <input type="text" class="form-control" @bind-value="Model!.Question" disabled />
+    </div>
+    <div class="form-control">
+        <label>Answer</label>
+        <input type="text" class="form-control" @bind-value="Model!.Answer" disabled />
+    </div>
+    <br />
+    <button type="submit">Delete</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int AboutId { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public IFAQRepository? _faqRepository { get; set; }
+
+    public FAQDto? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _faqRepository.GetFAQById(CourseId, AboutId, Id);
+    }
+
+    async Task Submit()
+    {
+        await _faqRepository.Delete(Id);
+
+        _navigation.NavigateTo($"/admin/faq/{CourseId}/{AboutId}");
+    }
+}

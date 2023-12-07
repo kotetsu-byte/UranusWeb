@@ -1,0 +1,52 @@
+﻿@page "/admin/result/{CourseId:int}/{AboutId:int}"
+@inject NavigationManager navigation
+<PageTitle>Results</PageTitle>
+
+@if(Results != null)
+{
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Docs</th>
+            <th>Videos</th>
+            <th>Homeworks</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in Results)
+        {
+            <tr>
+                <td>@item.Username</td>
+                <td>@item.Points</td>
+                <td><button @onclick="() => HandleDetailsClick(item.Id)">Details</button></td>
+            </tr>
+        }
+    </table>
+} else
+{
+    <p>Sorry, no data in database yet</p>
+}
+
+@code {
+    [Parameter]
+    public int CourseId { get; set; }
+
+    [Parameter]
+    public int AboutId { get; set; }
+
+    [Inject]
+    public IResultRepository? ResultRepository { get; set; }
+    public ICollection<ResultDto>? Results { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Results = await ResultRepository.GetAllResults(CourseId, AboutId);
+    }
+
+    void HandleDetailsClick(int? id)
+    {
+        navigation.NavigateTo($"/admin/result/details/{CourseId}/{AboutId}/{id}");
+    }
+}

@@ -8,6 +8,7 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Image URL</th>
             <th>Price</th>
             <th>Lessons</th>
             <th>Tests</th>
@@ -20,6 +21,7 @@
             <tr>
                 <td>@item.Name</td>
                 <td>@item.Description</td>
+                <td>@item.ImgUrl</td>
                 <td>@item.Price</td>
                 <td><button @onclick="() => HandleLessonsClick(item.Id)">Lessons</button></td>
                 <td><button @onclick="() => HandleTestsClick(item.Id)">Tests</button></td>
@@ -38,8 +40,8 @@
 
 @code {
     [Inject]
-    public ICourseRepository CourseRepository { get; set; }
-    public IEnumerable<CourseDto> Courses { get; set; }
+    public ICourseRepository? CourseRepository { get; set; }
+    public ICollection<CourseDto>? Courses { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

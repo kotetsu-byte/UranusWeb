@@ -4,7 +4,7 @@ namespace UranusWeb.Client.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<UserDto>> GetAllUsers();
+        Task<ICollection<UserDto>> GetAllUsers();
         Task<UserDto> GetUserById(int id);
         Task<string> Create(UserDto userDto);
         Task<string> Update(UserDto userDto);

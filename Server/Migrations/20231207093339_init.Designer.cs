@@ -12,7 +12,7 @@ using UranusWeb.Server.Data;
 namespace UranusWeb.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231124112421_init")]
+    [Migration("20231207093339_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -25,6 +25,21 @@ namespace UranusWeb.Server.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CourseUser", b =>
+                {
+                    b.Property<int>("CoursesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CoursesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("CourseUser");
+                });
+
             modelBuilder.Entity("UranusAdmin.Models.Course", b =>
                 {
                     b.Property<int?>("Id")
@@ -36,11 +51,17 @@ namespace UranusWeb.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<double?>("Price")
                         .HasColumnType("double precision");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -216,6 +237,9 @@ namespace UranusWeb.Server.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
@@ -262,6 +286,178 @@ namespace UranusWeb.Server.Migrations
                     b.ToTable("Videos");
                 });
 
+            modelBuilder.Entity("UranusWeb.Server.Models.About", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<double?>("Price")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId")
+                        .IsUnique();
+
+                    b.ToTable("Abouts");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.FAQ", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+
+                    b.Property<int?>("AboutId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AboutId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("FAQs");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.PartVideo", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+
+                    b.Property<int?>("AboutId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AboutId")
+                        .IsUnique();
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("PartVideos");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.Result", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+
+                    b.Property<int?>("AboutId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Points")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AboutId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.Review", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int?>("Id"));
+
+                    b.Property<int?>("AboutId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AboutId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.UserCourse", b =>
+                {
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("UserCourses");
+                });
+
+            modelBuilder.Entity("CourseUser", b =>
+                {
+                    b.HasOne("UranusAdmin.Models.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UranusAdmin.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("UranusAdmin.Models.Doc", b =>
                 {
                     b.HasOne("UranusAdmin.Models.Course", "Course")
@@ -270,7 +466,8 @@ namespace UranusWeb.Server.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Docs")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 
@@ -285,7 +482,8 @@ namespace UranusWeb.Server.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Homeworks")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 
@@ -296,7 +494,8 @@ namespace UranusWeb.Server.Migrations
                 {
                     b.HasOne("UranusAdmin.Models.Course", "Course")
                         .WithMany("Lessons")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
                 });
@@ -309,7 +508,8 @@ namespace UranusWeb.Server.Migrations
 
                     b.HasOne("UranusAdmin.Models.Homework", "Homework")
                         .WithMany("Materials")
-                        .HasForeignKey("HomeworkId");
+                        .HasForeignKey("HomeworkId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany()
@@ -326,7 +526,8 @@ namespace UranusWeb.Server.Migrations
                 {
                     b.HasOne("UranusAdmin.Models.Course", "Course")
                         .WithMany("Tests")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
                 });
@@ -339,15 +540,111 @@ namespace UranusWeb.Server.Migrations
 
                     b.HasOne("UranusAdmin.Models.Lesson", "Lesson")
                         .WithMany("Videos")
-                        .HasForeignKey("LessonId");
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Course");
 
                     b.Navigation("Lesson");
                 });
 
+            modelBuilder.Entity("UranusWeb.Server.Models.About", b =>
+                {
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithOne("About")
+                        .HasForeignKey("UranusWeb.Server.Models.About", "CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.FAQ", b =>
+                {
+                    b.HasOne("UranusWeb.Server.Models.About", "About")
+                        .WithMany("FAQs")
+                        .HasForeignKey("AboutId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("About");
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.PartVideo", b =>
+                {
+                    b.HasOne("UranusWeb.Server.Models.About", "About")
+                        .WithOne("PartVideo")
+                        .HasForeignKey("UranusWeb.Server.Models.PartVideo", "AboutId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("About");
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.Result", b =>
+                {
+                    b.HasOne("UranusWeb.Server.Models.About", "About")
+                        .WithMany("Results")
+                        .HasForeignKey("AboutId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("About");
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.Review", b =>
+                {
+                    b.HasOne("UranusWeb.Server.Models.About", "About")
+                        .WithMany("Reviews")
+                        .HasForeignKey("AboutId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("About");
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.UserCourse", b =>
+                {
+                    b.HasOne("UranusAdmin.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UranusAdmin.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("UranusAdmin.Models.Course", b =>
                 {
+                    b.Navigation("About");
+
                     b.Navigation("Lessons");
 
                     b.Navigation("Tests");
@@ -365,6 +662,17 @@ namespace UranusWeb.Server.Migrations
                     b.Navigation("Homeworks");
 
                     b.Navigation("Videos");
+                });
+
+            modelBuilder.Entity("UranusWeb.Server.Models.About", b =>
+                {
+                    b.Navigation("FAQs");
+
+                    b.Navigation("PartVideo");
+
+                    b.Navigation("Results");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

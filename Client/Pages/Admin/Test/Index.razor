@@ -45,8 +45,8 @@
     public int CourseId { get; set; }
 
     [Inject]
-    public ITestRepository TestRepository { get; set; }
-    public IEnumerable<TestDto> Tests { get; set; }
+    public ITestRepository? TestRepository { get; set; }
+    public ICollection<TestDto>? Tests { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -8,11 +8,12 @@ namespace UranusWeb.Server.Models
     {
         [Key]
         public int? Id { get; set; }
+        public string? Description { get; set; }
         public string? Content { get;set; }
-        public IEnumerable<Review>? Reviews { get; set; }
-        public IEnumerable<Result>? Results { get; set; }
-        public PartVideo? LessonPartVideo { get; set; }
-        public IEnumerable<FAQ>? FAQs { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public ICollection<Result>? Results { get; set; }
+        public PartVideo? PartVideo { get; set; }
+        public ICollection<FAQ>? FAQs { get; set; }
         public double? Price { get; set; }
         [ForeignKey("Course")]
         public int? CourseId { get; set; }

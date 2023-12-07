@@ -4,8 +4,10 @@ namespace UranusWeb.Server.Interfaces
 {
     public interface ICourseRepository
     {
-        Task<IEnumerable<Course>> GetAllCourses();
-        Task<Course> GetCourseById(int id);
+        Task<ICollection<Course>> GetAllCourses();
+        Task<Course> GetCourseById(int courseId);
+        Task<int?> GetAboutId(int courseId);
+        Task<int?> GetPartVideoId(int courseId);
         bool Create(Course course);
         bool Update(Course course);
         bool Delete(int id);
