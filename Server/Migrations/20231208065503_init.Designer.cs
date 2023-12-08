@@ -12,7 +12,7 @@ using UranusWeb.Server.Data;
 namespace UranusWeb.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231207093339_init")]
+    [Migration("20231208065503_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -51,7 +51,7 @@ namespace UranusWeb.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("ImgUrl")
+                    b.Property<string>("Img")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")

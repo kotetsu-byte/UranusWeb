@@ -48,7 +48,7 @@ namespace UranusWeb.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("ImgUrl")
+                    b.Property<string>("Img")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")

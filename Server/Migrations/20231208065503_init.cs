@@ -20,7 +20,7 @@ namespace UranusWeb.Server.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    ImgUrl = table.Column<string>(type: "text", nullable: true),
+                    Img = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<double>(type: "double precision", nullable: true),
                     UserId = table.Column<int>(type: "integer", nullable: true)
                 },

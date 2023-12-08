@@ -1,6 +1,8 @@
 ﻿@page "/admin/course/create"
 @inject ICourseRepository _courseRepository
 @inject NavigationManager _navigation
+@using System.IO
+@using System.Drawing;
 
 @if(Model != null)
 {
@@ -15,7 +17,7 @@
         </div>
         <div class="form-control">
             <label>Image URL</label>
-            <InputFile OnChange="() => " />
+            <InputFile OnChange="@UploadImage" />
         </div>
         <div class="form-control">
             <label>Price</label>
@@ -41,8 +43,14 @@
 
     public CourseDto? Model { get; set; }
 
-    async Task UploadImage()
+    async void UploadImage(InputFileChangeEventArgs e)
     {
-        
+        var file = e.File;
+        using var ms = new MemoryStream();
+        await file.OpenReadStream(long.MaxValue).CopyToAsync(ms);
+        byte[] bytes = ms.ToArray();
+        var base64 = Convert.ToBase64String(bytes);
+        Model.Img = $"data:{file.ContentType};base64,{base64}";
+
     }
 }
